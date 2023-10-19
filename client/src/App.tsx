@@ -1,7 +1,7 @@
 import { Box } from '@mantine/core'
 import useSWR from 'swr'
 import './App.css'
-import { MantineProvider } from '@mantine/core'
+import { MantineProvider, List } from '@mantine/core'
 import AddTodo from "./components/AddTodo"
 
 export interface Todo {
@@ -22,7 +22,13 @@ function App() {
  
   return (
     <MantineProvider>
-      <h4>{JSON.stringify(data)}</h4>
+      <List center>
+        {data?.map((todo) => {
+          return <List.Item key={`todo__${todo.id}`}>
+              {todo.title}
+          </List.Item>
+        })}
+      </List>
       <AddTodo mutate={mutate} />
     </MantineProvider>
   )
