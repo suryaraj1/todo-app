@@ -4,6 +4,13 @@ import './App.css'
 import { MantineProvider } from '@mantine/core'
 import AddTodo from "./components/AddTodo"
 
+export interface Todo {
+  id: number;
+  title: string;
+  body: string;
+  done: boolean;
+}
+
 const PORT = 4000;
 export const ENDPOINT = `http://localhost:${PORT}`;
 
@@ -11,11 +18,12 @@ const fetcher = (url: string) => fetch(`${ENDPOINT}/${url}`).then(response => re
 
 function App() {
 
-  // const { data, mutate } = useSWR("api/todos", fetcher);
+  const { data, mutate } = useSWR<Todo[]>("api/todos", fetcher);
  
   return (
     <MantineProvider>
-      <AddTodo />
+      <h4>{JSON.stringify(data)}</h4>
+      <AddTodo mutate={mutate} />
     </MantineProvider>
   )
 }
